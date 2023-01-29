@@ -1,0 +1,31 @@
+Passo a passo para a construção de uma API com Banco de dados no .NET.
+
+1: Criação de uma pasta models construindo uma model para Car e Photo.
+
+2: Logo após isso criamos uma pasta Data, criando um arquivo para o banco de dados no qual iremos 
+herdar a classe do entity framework dbContext a essa classe e definimos as tabelas do banco dando um
+DBset<Model como objeto do banco de dados> nome.
+
+3: Logo após isso é necessário definir a connection string para o banco de dados dentro do program criado e com a ajuda da extensão
+do sql Server conectar usando essa connection string que é definida no appSetings do projeto.
+
+//variavel para pegar o valor da connection string de dentro do appSettings, de acordo com o model criado
+//dentro da pasta UI.
+var apiSettings = builder.Configuration.GetSection("ApiSettings").Get<ApiSettings>();
+
+//Realiza a conexão com o banco de dados com a variável criada anteriormente na qual foi pego a connectionString de appSettings a partir de uma model do mesmo
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(apiSettings.SqlServerConnectionString));
+
+4:Logo depois criamos uma interface para as ações que serão tomadas para cada uma dos banco de dados dentro da pasta services.
+
+5:Implementamos a interface dentro de uma facade.
+
+6:Logo após em program, fazemos a injeção de dependencias usando ou singleton, scoped ou transient para linkar
+a interface a facade. Assim chamamos as funções da facade através da interface.
+
+7:Criamos a pasta controllers definindo os endpoints de cada ação.
+
+Guide:
+
+Repository:É armazenado funções que manipulam dados em bancos de dados.
+
